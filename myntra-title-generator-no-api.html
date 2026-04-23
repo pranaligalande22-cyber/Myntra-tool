@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Myntra Deal Title Generator (No API)</title>
+<style>
+body { font-family: Arial; background:#111; color:#fff; padding:20px; }
+input, button { padding:10px; margin:5px; width:100%; }
+.result { margin-top:20px; }
+.highlight { color:#00ff88; }
+</style>
+</head>
+<body>
+
+<h2>Myntra Deal Title Generator</h2>
+
+<input type="text" id="urlInput" placeholder="Paste Myntra URL">
+<button onclick="fetchProduct()">Generate Title</button>
+
+<div class="result">
+  <p id="titleText"></p>
+  <button onclick="copyTitle()">Copy Title</button>
+  <button onclick="copyLink()">Copy Link</button>
+</div>
+
+<script>
+let currentUrl = '';
+let currentTitle = '';
+
+function fetchProduct() {
+  const url = document.getElementById('urlInput').value.trim();
+  if (!url) {
+    alert('Paste product link');
+    return;
+  }
+
+  currentUrl = url;
+
+  const name = prompt("Enter product name:");
+  const price = prompt("Enter selling price (₹):");
+  const discount = prompt("Enter discount (e.g. 70% off):");
+
+  if (!name || !price || !discount) {
+    alert("All fields required");
+    return;
+  }
+
+  const data = {
+    name,
+    price: `₹${price}`,
+    discount
+  };
+
+  showResult(data);
+}
+
+function showResult(data) {
+  const titlePlain = `${data.discount} on ${data.name} at just ${data.price}`;
+  currentTitle = titlePlain;
+
+  document.getElementById('titleText').innerHTML =
+    `<span class="highlight">${data.discount}</span> on ${data.name} at just <span class="highlight">${data.price}</span>`;
+}
+
+function copyTitle() {
+  navigator.clipboard.writeText(currentTitle);
+  alert('Title copied!');
+}
+
+function copyLink() {
+  navigator.clipboard.writeText(currentUrl);
+  alert('Link copied!');
+}
+</script>
+
+</body>
+</html>
